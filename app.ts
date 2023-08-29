@@ -1,9 +1,29 @@
-function add(n1: number, n2: number ) {
-    return n1 + n2;
+// const person: {
+//   name: string;
+//   age: number;
+//   hobbies: string[];
+//   role: [number, string];
+// } = {
+//   name: "ali",
+//   age: 32,
+//   hobbies: ["sports", "studying"],
+//   role: [1, "admin"],
+// };
+
+enum Role {
+  admin = "ADMIN",
+  user = 0,
+  reporter,
 }
 
-const num1 =  5;
-const num2 = 4;
+const person = {
+  name: "ali",
+  age: 32,
+  hobbies: ["sports", "studying"],
+  role: Role.admin,
+};
 
-const result = add(num1, num2);
-console.log(result);
+// let favArr: string[];
+
+// for (const hobby of person.hobbies) console.log(hobby);
+console.log(person.role);
