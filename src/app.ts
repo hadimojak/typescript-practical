@@ -42,7 +42,7 @@ function printEmployeeInformation(emp: UnknownEmployee) {
   }
 }
 
-printEmployeeInformation(emp1);
+// printEmployeeInformation(emp1);
 
 class Car {
   drive() {
@@ -75,5 +75,37 @@ function useVehicle(vhicle: Vhicle) {
   }
 }
 
-useVehicle(v2);
-useVehicle(v1);
+// useVehicle(v2);
+// useVehicle(v1);
+
+interface Bird {
+  type: "bird";
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: "horse";
+  runSpeed: number;
+}
+
+type Animal = Bird | Horse; //onion type
+
+function moveAnimal(animal: Animal) {
+  switch (animal.type) {
+    case "bird":
+      console.log(`moving with speed : ${animal.flyingSpeed}`);
+      break;
+    case "horse":
+      console.log(`moving with speed : ${animal.runSpeed}`);
+      break;
+    default:
+      console.log("no animal");
+      break;
+  }
+}
+
+// moveAnimal({ runSpeed: 80, type: "horse" });
+
+const userInput = document.getElementById("user-input")!;
+
+userInput.value = "new value";
