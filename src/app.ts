@@ -52,14 +52,17 @@
 // console.log(extractAndConvert({ name: "hadi" }, "name"));
 
 class DataStorage<T> {
-  // private data:Array<T> = [];
-  constructor(private data: T[]) {}
+  private data: Array<T> = [];
+  // constructor(private data: T[]) {}
 
   addItem(item: T) {
     this.data.push(item);
   }
 
   removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
     this.data.splice(this.data.indexOf(item), 1);
   }
 
@@ -68,8 +71,45 @@ class DataStorage<T> {
   }
 }
 
-const textStorage = new DataStorage<string>(["name", "age"]);
+// const textStorage = new DataStorage<string>(["name", "age"]);
+const textStorage = new DataStorage<string>();
 textStorage.addItem("hi");
 textStorage.addItem("there");
 
-console.log(textStorage.getItems());
+// console.log(textStorage.getItems());
+
+// const numberStorage = new DataStorage<number>([12]);
+const numberStorage = new DataStorage<number>();
+
+// console.log(numberStorage.getItems());
+
+const objStorage = new DataStorage<object>();
+objStorage.addItem({ name: "ali" });
+objStorage.addItem({ age: 43 });
+
+objStorage.removeItem({ name: "ali" });
+
+// console.log(objStorage.getItems());
+
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCurseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  //type casting
+  return courseGoal as CourseGoal;
+}
+
+const names: Readonly<string[]> = ["lai", "had"];
+
+names.push("antar");
