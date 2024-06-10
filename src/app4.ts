@@ -41,7 +41,11 @@ function log(target: any, propName: string | symbol) {
   console.log("target : ", target);
 }
 
+<<<<<<< HEAD
 
+=======
+function
+>>>>>>> 1c01cf0253d26e2a51699e4fef9db897cb67790a
 class Product {
   @log
   title: string;
