@@ -114,5 +114,6 @@
   "exclude": [
     "node_modules"
   ],
-  "include": ["src/app.ts"]
+  // "include": ["src/app.ts"],
+  "files": ["src/app.ts"]
 }
