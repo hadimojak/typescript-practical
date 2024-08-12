@@ -1,10 +1,20 @@
-const divEl = document.getElementById("app") as HTMLDivElement;
+class Department {
+  name: string;
 
-divEl.innerHTML = "<p>hellow sag</p>";
+  constructor(n: string) {
+    this.name = n;
+  }
 
-const btn = document.getElementById("button") as HTMLButtonElement;
-function clickHandler(message: string) {
-  console.log(message + ": clicked");
+  describe(): void {
+    console.log("depart: " + this.name);
+  }
 }
 
-btn.addEventListener("click", clickHandler.bind(null, "there"));
+const department = new Department("hadi");
+
+// console.log({ department });
+department.describe();
+
+const department2 = { describe: department.describe };
+
+department2.describe();
