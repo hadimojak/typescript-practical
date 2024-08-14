@@ -1,5 +1,5 @@
 class Department {
-  private empolyees: string[] = [];
+  protected empolyees: string[] = [];
   // public name: string;
 
   constructor(public name: string, private readonly id: string) {}
@@ -33,6 +33,13 @@ class AccountingDepartment extends Department {
   constructor(id: string, reports: string[]) {
     super("accounting", id);
     this.reports = reports;
+  }
+
+  addEmployee(name: string): void {
+    if (name === "hadi") {
+      return;
+    }
+    this.empolyees.push(name);
   }
 
   addReport(report: string) {
