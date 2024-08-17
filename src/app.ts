@@ -29,10 +29,24 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department {
   private reports: string[];
+  private lastReport: string;
+
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return "last report: " + this.lastReport;
+    }
+    throw new Error("no report found");
+  }
+
+  set mostRecentReport(value: string) {
+    if (!value) throw new Error("pass in a valid value !!");
+    this.addReport(value);
+  }
 
   constructor(id: string, reports: string[]) {
     super("accounting", id);
     this.reports = reports;
+    this.lastReport = reports[0];
   }
 
   addEmployee(name: string): void {
@@ -44,6 +58,7 @@ class AccountingDepartment extends Department {
 
   addReport(report: string) {
     this.reports.push(report);
+    this.lastReport = report;
   }
 
   getReports() {
@@ -52,20 +67,12 @@ class AccountingDepartment extends Department {
 }
 
 const it = new ITDepartment("1664", ["hadi"]);
-const acc = new AccountingDepartment("6654", ["bad report"]);
+const acc = new AccountingDepartment("665224", []);
 
-console.log({ it });
-console.log({ acc });
+acc.mostRecentReport = "good reports";
+acc.mostRecentReport = "good reports2";
+console.log(acc.mostRecentReport);
 
-it.addEmployee("gholi");
-it.addEmployee("ali");
+const acc1 = new AccountingDepartment("6654", ["bad report"]);
 
-it.describe();
-it.printEmployeeInfo();
-
-acc.addReport("some report");
-acc.printEmployeeInfo()
-
-// const department2 = { name: "ahmad", describe: department.describe };
-
-// department2.describe();
+console.log(it, acc1);
