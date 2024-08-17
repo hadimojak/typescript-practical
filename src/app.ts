@@ -54,8 +54,6 @@ class AccountingDepartment extends Department {
 const it = new ITDepartment("1664", ["hadi"]);
 const acc = new AccountingDepartment("6654", ["bad report"]);
 
-acc.addReport("some report");
-
 console.log({ it });
 console.log({ acc });
 
@@ -64,6 +62,9 @@ it.addEmployee("ali");
 
 it.describe();
 it.printEmployeeInfo();
+
+acc.addReport("some report");
+acc.printEmployeeInfo()
 
 // const department2 = { name: "ahmad", describe: department.describe };
 
