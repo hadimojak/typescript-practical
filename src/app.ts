@@ -8,6 +8,8 @@ type Employee = {
   startDate: Date;
 };
 
+// interface ElevatedEmployee extends Admin, Employee {}
+
 type ElevatedEmployee = Admin & Employee;
 
 const e1: ElevatedEmployee = {
@@ -15,3 +17,8 @@ const e1: ElevatedEmployee = {
   privileges: ["create-server"],
   startDate: new Date(),
 };
+
+type Combinale = string | number;
+type Numeric = number | boolean;
+
+type Universal = Combinale & Numeric;
