@@ -6,30 +6,46 @@ function Logger(logName: string) {
   };
 }
 
-function withTemplate(template: string, hookId: string) {
-  return function <T extends { new (...args: any[]): { name: string } }>(constructor1: T) {
-    return class extends constructor1 {
-      constructor(..._: any[]) {
+function WithTemplate(template: string, hookId: string) {
+  console.log("TEMPLATE FACTORY");
+  return function <T extends { new (...args: any[]): { name: string } }>(originalConstructor: T) {
+    return class extends originalConstructor {
+      constructor(..._args: any[]) {
         super();
-        const ULElement = document.getElementById(hookId) as HTMLUListElement;
-        // divElement.innerHTML = template;
-        (document.querySelector("ul") as HTMLUListElement).innerHTML = this.name;
+        console.log("Rendering template");
+        const hookEl = document.getElementById(hookId);
+
+        if (hookEl) {
+          const LIEL = document.createElement("li") as HTMLLIElement;
+          LIEL.innerHTML = template;
+          console.log("111111111111", LIEL, this.name);
+          (LIEL.querySelector("h1") as HTMLHeadingElement).innerText = _args[0];
+          hookEl.appendChild(LIEL);
+
+          // hookEl.appendChild(template);
+          // hookEl.querySelector("h1")!.textContent = this.name;
+        }
+        console.log(this.name);
+        
       }
     };
   };
 }
 
-@Logger("warn")
-@withTemplate(`<p>hellow decorator</p>`, "app")
+// @Logger("warn")
+@WithTemplate(`<h1>My Person Object</h1>`, "app1")
 class Person {
-  name = "maxii";
+  name = "hadi";
 
-  constructor() {
+  constructor(n: string) {
+    this.name = n;
     console.log("creating person");
   }
 }
 
-new Person()
+new Person('annnn');
+new Person('annnn2');
+new Person('annnn4');
 
 // //#region property decorator
 // function Log(target: any, propertyName: string | symbol) {
