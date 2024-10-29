@@ -26,7 +26,6 @@ function WithTemplate(template: string, hookId: string) {
           // hookEl.querySelector("h1")!.textContent = this.name;
         }
         console.log(this.name);
-        
       }
     };
   };
@@ -43,57 +42,86 @@ class Person {
   }
 }
 
-new Person('annnn');
-new Person('annnn2');
-new Person('annnn4');
+new Person("annnn");
+new Person("annnn2");
+new Person("annnn4");
 
-// //#region property decorator
-// function Log(target: any, propertyName: string | symbol) {
-//   console.log("1 -property decorator...", target, propertyName);
-// }
+//#region property decorator
+function Log(target: any, propertyName: string | symbol) {
+  console.log("1 -property decorator...", target, propertyName);
+}
 
-// //#region accessor decorator
-// function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
-//   console.log("2 -accessor decorator");
-//   console.log(target);
-//   console.log(name);
-//   console.log(descriptor);
-// }
+//#region accessor decorator
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log("2 -accessor decorator");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
 
-// //#region method decorator
-// function Log3(target: any, name: string | symbol, descriptor: PropertyDescriptor) {
-//   console.log("3- method decorator");
-//   console.log(target);
-//   console.log(name);
-//   console.log(descriptor);
-// }
+//#region method decorator
+function Log3(target: any, name: string | symbol, descriptor: PropertyDescriptor): PropertyDescriptor {
+  console.log("3- method decorator");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+  return {};
+}
 
-// //#region parameter decorator
-// function Log4(target: any, name: string | symbol, index: number) {
-//   console.log("4- parameter decorator");
-//   console.log(target);
-//   console.log(name);
-//   console.log(index);
-// }
+//#region parameter decorator
+function Log4(target: any, name: string | symbol, index: number) {
+  console.log("4- parameter decorator");
+  console.log(target);
+  console.log(name);
+  console.log(index);
+}
 
-// class Product {
-//   @Log
-//   title: string;
-//   private _price: number;
+class Product {
+  @Log
+  title: string;
+  private _price: number;
 
-//   @Log2
-//   set price(val: number) {
-//     if (val > 0) this._price = val;
-//     else throw new Error("val is not valid price number");
-//   }
+  @Log2
+  set price(val: number) {
+    if (val > 0) this._price = val;
+    else throw new Error("val is not valid price number");
+  }
 
-//   constructor(t: string, p: number) {
-//     this.title = t;
-//     this._price = p;
-//   }
+  constructor(t: string, p: number) {
+    this.title = t;
+    this._price = p;
+  }
 
-//   @Log3
-//   getPriceWithTax(@Log4 tax: number) {
-//     return this._price * (1 + tax);
-//   }
-// }
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
+    return this._price * (1 + tax);
+  }
+}
+
+function Autobind(_: any, _2: string | symbol, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  console.log({ descriptor });
+
+  const adjDiscriptop: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjDiscriptop;
+}
+
+class Printer {
+  message = "this works";
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+const p = new Printer();
+
+const button = document.querySelector("button") as HTMLButtonElement;
+button.addEventListener("click", p.showMessage);
