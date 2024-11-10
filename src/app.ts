@@ -11,6 +11,19 @@ function AutoBind(_: any, _2: string | symbol, descriptor: PropertyDescriptor) {
   return adjDiscriptop;
 }
 
+function ValidateInput(validateFn: (instance: ProjectInput) => boolean) {
+  return function (_: any, _2: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+
+    descriptor.value = function (this: ProjectInput, ...args: any[]) {
+      const result = originalMethod.apply(this, args);
+      if (!validateFn(this)) alert("invalid input");
+      else return result;
+    };
+    return descriptor;
+  };
+}
+
 class ProjectInput {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
@@ -35,15 +48,17 @@ class ProjectInput {
     this.attach();
   }
 
+  @ValidateInput(
+    (instance: ProjectInput) =>
+      instance.titleInputElement.value.trim().length !== 0 &&
+      instance.descriptionInputElement.value.trim().length !== 0 &&
+      instance.peopleInputElement.value.trim().length !== 0
+  )
   private getherUserUnput(): [string, string, number] | void {
     const enteredTitle = this.titleInputElement.value;
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
-
-    if (enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredPeople.trim().length == 0) {
-      alert("invalid input");
-      return;
-    } else return [enteredTitle, enteredDescription, +enteredPeople];
+    return [enteredTitle, enteredDescription, +enteredPeople];
   }
 
   @AutoBind
