@@ -11,17 +11,44 @@ function AutoBind(_: any, _2: string | symbol, descriptor: PropertyDescriptor) {
   return adjDiscriptop;
 }
 
-function ValidateInput(validateFn: (instance: ProjectInput) => boolean) {
-  return function (_: any, _2: string, descriptor: PropertyDescriptor) {
-    const originalMethod = descriptor.value;
+// function ValidateInput(validateFn: (instance: any) => boolean) {
+//   return function (_: any, _2: string, descriptor: PropertyDescriptor) {
+//     const originalMethod = descriptor.value;
 
-    descriptor.value = function (this: ProjectInput, ...args: any[]) {
-      const result = originalMethod.apply(this, args);
-      if (!validateFn(this)) alert("invalid input");
-      else return result;
-    };
-    return descriptor;
-  };
+//     descriptor.value = function (...args: any[]) {
+//       if (!validateFn(this)) alert("invalid input1");
+//       else return originalMethod.apply(this, args);
+//     };
+//   };
+// }
+
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  //   required: boolean|undefined;
+  minLenght?: number;
+  maxLenght?: number;
+  min?: number;
+  max?: number;
+}
+function validate(validatableInput: Validatable): boolean {
+  let isValid = true;
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+  }
+  if (validatableInput.minLenght != null && typeof validatableInput.value === "string") {
+    isValid = isValid && validatableInput.value.length >= validatableInput.minLenght;
+  }
+  if (validatableInput.maxLenght != null && typeof validatableInput.value === "string") {
+    isValid = isValid && validatableInput.value.length <= validatableInput.maxLenght;
+  }
+  if (validatableInput.min != null && typeof validatableInput.value === "number") {
+    isValid = isValid && validatableInput.value >= validatableInput.min;
+  }
+  if (validatableInput.max != null && typeof validatableInput.value === "number") {
+    isValid = isValid && validatableInput.value <= validatableInput.max;
+  }
+  return isValid;
 }
 
 class ProjectInput {
@@ -48,17 +75,25 @@ class ProjectInput {
     this.attach();
   }
 
-  @ValidateInput(
-    (instance: ProjectInput) =>
-      instance.titleInputElement.value.trim().length !== 0 &&
-      instance.descriptionInputElement.value.trim().length !== 0 &&
-      instance.peopleInputElement.value.trim().length !== 0
-  )
+  //   @ValidateInput(
+  //     (instance: any) =>
+  //       instance.titleInputElement.value.trim().length !== 0 &&
+  //       instance.descriptionInputElement.value.trim().length !== 0 &&
+  //       instance.peopleInputElement.value.trim().length !== 0
+  //   )
   private getherUserUnput(): [string, string, number] | void {
     const enteredTitle = this.titleInputElement.value;
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
-    return [enteredTitle, enteredDescription, +enteredPeople];
+
+    const titlevalidatable: Validatable = { value: enteredTitle, required: true };
+    const descvalidatable: Validatable = { value: enteredDescription, required: true, minLenght: 5 };
+    const peoplevalidatable: Validatable = { value: +enteredPeople, required: true, min: 1, max: 5 };
+
+    if (!validate(titlevalidatable) || !validate(descvalidatable) || !validate(peoplevalidatable)) {
+      alert("invalid input");
+      return;
+    } else return [enteredTitle, enteredDescription, +enteredPeople];
   }
 
   @AutoBind
