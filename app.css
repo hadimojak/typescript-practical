@@ -27,7 +27,7 @@
     padding: 0.2rem 0.4rem;
     width: 100%;
     max-width: 30rem;
-    border: 1px solid #ccc;
+    border: 1px solid #7aa5c2;
   }
   
   input:focus,
@@ -38,8 +38,8 @@
   
   button {
     font: inherit;
-    background: #ff0062;
-    border: 1px solid #ff0062;
+    background: #7aa5c2;
+    border: 1px solid #7aa5c2;
     cursor: pointer;
     color: white;
     padding: 0.75rem 1rem;
@@ -51,17 +51,17 @@
   
   button:hover,
   button:active {
-    background: #a80041;
-    border-color: #a80041;
+    background: #7aa5c2;
+    border-color: #7aa5c2;
   }
   
   .projects {
     margin: 1rem;
-    border: 1px solid #ff0062;
+    border: 1px solid #7aa5c2;
   }
   
   .projects header {
-    background: #ff0062;
+    background: #c0695d;
     height: 3.5rem;
     display: flex;
     justify-content: center;
@@ -94,12 +94,12 @@
   }
   
   .projects li h2 {
-    color: #ff0062;
+    color: #7aa5c2;
     margin: 0.5rem 0;
   }
   
   #finished-projects li h2 {
-    color: #0044ff;
+    color: #355fd4;
   }
   
   .projects li h3 {
@@ -122,7 +122,8 @@
   #user-input {
     margin: 1rem;
     padding: 1rem;
-    border: 1px solid #ff0062;
+    border: 1px solid #7aa5c2;
     background: #f7f7f7;
   }
+  
   
