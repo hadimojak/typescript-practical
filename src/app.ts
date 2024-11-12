@@ -117,13 +117,11 @@ class ProjectInput {
   }
 }
 
-class SingleProject {}
-
 class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLAreaElement;
-  assignedProjects: any[] = [];
+  assignedProjects: Project[] = [];
 
   constructor(private type: "active" | "finished") {
     this.templateElement = <HTMLTemplateElement>document.getElementById("project-list");
@@ -133,8 +131,9 @@ class ProjectList {
     this.element = impoertedNode.firstElementChild as HTMLAreaElement;
     this.element.id = `${this.type}-projects`;
 
-    projectState.addlistener((projects: any[]) => {
+    projectState.addlistener((projects: Project[]) => {
       this.assignedProjects = projects;
+
       this.renderProject();
     });
 
@@ -162,9 +161,19 @@ class ProjectList {
   }
 }
 
+enum ProjectStatus {
+  Active,
+  Finished,
+}
+class Project {
+  constructor(public id: string, public title: string, public descrption: string, public people: number, public status: ProjectStatus) {}
+}
+
+type Listener = (items: Project[]) => void;
+
 class ProjectState {
-  private projects: any[] = [];
-  private listeners: any[] = [];
+  private projects: Project[] = [];
+  private listeners: Listener[] = [];
   private static instance: ProjectState;
 
   private constructor() {}
@@ -177,12 +186,12 @@ class ProjectState {
     return this.instance;
   }
 
-  addlistener(listenerFn: Function) {
+  addlistener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   addProject(title: string, desc: string, people: number) {
-    const newProject = { id: Math.random().toString(), title, desc, people };
+    const newProject = new Project(Math.random().toString(), title, desc, people, ProjectStatus.Active);
     this.projects.push(newProject);
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
