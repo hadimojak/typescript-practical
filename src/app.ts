@@ -164,13 +164,14 @@ class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> {
   }
 
   private renderProject() {
+    // new ProjectItem(this.assignedProjects, this.type);
     const listEl = document.getElementById(`${this.type}-projects-list`) as HTMLUListElement;
     listEl.innerHTML = "";
 
     for (const prjItem of this.assignedProjects) {
-      const listItem = document.createElement("li");
-      listItem.textContent = prjItem.title;
-      listEl.appendChild(listItem);
+      console.log(this.element, this.element.id);
+
+      new ProjectItem(this.element.querySelector("ul")!.id, prjItem);
     }
   }
 }
@@ -223,6 +224,27 @@ class ProjectState extends State<Project> {
   }
 }
 //#endregion ProjectState
+
+//#region projectItem
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+  private project: Project;
+
+  constructor(hostId: string, project: Project) {
+    super("single-project", hostId, false, project.id);
+    this.project = project;
+
+    this.configure();
+    this.renderContent();
+  }
+  configure(): void {}
+
+  renderContent(): void {
+    (this.element.querySelector("h2") as HTMLHeadElement).textContent = this.project.title;
+    (this.element.querySelector("h3") as HTMLParagraphElement).textContent = this.project.people.toString();
+    (this.element.querySelector("p") as HTMLHeadElement).textContent = this.project.descrption;
+  }
+}
+//#endregion projectItem
 
 const projectState = ProjectState.getInstance();
 new ProjectInput();
