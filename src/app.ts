@@ -1,3 +1,14 @@
+interface Draggable {
+  dragStartHandler(event: DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
+
 function AutoBind(_: any, _2: string | symbol, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   const adjDiscriptop: PropertyDescriptor = {
@@ -225,7 +236,7 @@ class ProjectState extends State<Project> {
 //#endregion ProjectState
 
 //#region projectItem
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
   private project: Project;
 
   get persons() {
@@ -243,7 +254,21 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.configure();
     this.renderContent();
   }
-  configure(): void {}
+
+  @AutoBind
+  dragStartHandler(event: DragEvent): void {
+    console.log("drag start",event);
+  }
+
+  @AutoBind
+  dragEndHandler(_: DragEvent): void {
+    console.log("drag end");
+  }
+
+  configure(): void {
+    this.element.addEventListener("dragstart", this.dragStartHandler);
+    this.element.addEventListener("dragend", this.dragEndHandler);
+  }
 
   renderContent(): void {
     (this.element.querySelector("h2") as HTMLHeadElement).textContent = this.project.title;
