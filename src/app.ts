@@ -31,6 +31,7 @@ interface Validatable {
   min?: number;
   max?: number;
 }
+
 function validate(validatableInput: Validatable): boolean {
   let isValid = true;
   if (validatableInput.required) {
@@ -169,9 +170,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> {
     listEl.innerHTML = "";
 
     for (const prjItem of this.assignedProjects) {
-      console.log(this.element, this.element.id);
-
-      new ProjectItem(this.element.querySelector("ul")!.id, prjItem);
+      new ProjectItem((this.element.querySelector("ul") as HTMLUListElement).id, prjItem);
     }
   }
 }
@@ -229,6 +228,14 @@ class ProjectState extends State<Project> {
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
   private project: Project;
 
+  get persons() {
+    if (this.project.people === 1) {
+      return "1 person";
+    } else {
+      return `${this.project.people} persons `;
+    }
+  }
+
   constructor(hostId: string, project: Project) {
     super("single-project", hostId, false, project.id);
     this.project = project;
@@ -240,7 +247,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
 
   renderContent(): void {
     (this.element.querySelector("h2") as HTMLHeadElement).textContent = this.project.title;
-    (this.element.querySelector("h3") as HTMLParagraphElement).textContent = this.project.people.toString();
+    (this.element.querySelector("h3") as HTMLParagraphElement).textContent = this.persons + " assigned";
     (this.element.querySelector("p") as HTMLHeadElement).textContent = this.project.descrption;
   }
 }
