@@ -1,13 +1,13 @@
 import { DragTarget } from "../models/drag-drop.js";
-import { Component } from "./base-component.js";
-import { Project, ProjectStatus } from "../models/project.js";
+import Component from "./base-component.js";
+import * as PRJ from "../models/project.js";
 import { AutoBind } from "../decorators/autobind.js";
 import { projectState } from "../state/project.js";
 import { ProjectItem } from "./project-item.js";
 
 //#region ProjectList
 export class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> implements DragTarget {
-  assignedProjects: Project[] = [];
+  assignedProjects: PRJ.Project[] = [];
 
   constructor(private type: "active" | "finished") {
     super("project-list", "app", false, `${type}-projects`);
@@ -34,7 +34,7 @@ export class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> impl
   @AutoBind
   dropHandler(event: DragEvent): void {
     const prjId = event.dataTransfer!.getData("text/plain");
-    projectState.moveProject(prjId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished);
+    projectState.moveProject(prjId, this.type === "active" ? PRJ.ProjectStatus.Active : PRJ.ProjectStatus.Finished);
   }
 
   renderContent() {
@@ -48,11 +48,11 @@ export class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> impl
     this.element.addEventListener("dragleave", this.dragLeaveHandler);
     this.element.addEventListener("drop", this.dropHandler);
 
-    projectState.addlistener((projects: Project[]) => {
+    projectState.addlistener((projects: PRJ.Project[]) => {
       const releventProjects = projects.filter((prj) => {
         if (this.type === "active") {
-          return prj.status === ProjectStatus.Active;
-        } else return prj.status === ProjectStatus.Finished;
+          return prj.status === PRJ.ProjectStatus.Active;
+        } else return prj.status === PRJ.ProjectStatus.Finished;
       });
       this.assignedProjects = releventProjects;
       this.renderProject();

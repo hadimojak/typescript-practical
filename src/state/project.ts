@@ -1,4 +1,4 @@
-import {Project,ProjectStatus} from '../models/project.js'
+import * as PRJ from "../models/project.js";
 
 type Listener<T> = (items: T[]) => void;
 
@@ -13,8 +13,8 @@ class State<T> {
 //#endregion state
 
 //#region ProjectState
-export class ProjectState extends State<Project> {
-  private projects: Project[] = [];
+export class ProjectState extends State<PRJ.Project> {
+  private projects: PRJ.Project[] = [];
   private static instance: ProjectState;
 
   private constructor() {
@@ -30,12 +30,12 @@ export class ProjectState extends State<Project> {
   }
 
   addProject(title: string, desc: string, people: number) {
-    const newProject = new Project(Math.random().toString(), title, desc, people, ProjectStatus.Active);
+    const newProject = new PRJ.Project(Math.random().toString(), title, desc, people, PRJ.ProjectStatus.Active);
     this.projects.push(newProject);
     this.updateListeners();
   }
 
-  moveProject(projectId: string, newStatus: ProjectStatus) {
+  moveProject(projectId: string, newStatus: PRJ.ProjectStatus) {
     const prj = this.projects.find((val) => val.id === projectId);
     if (prj && prj.status !== newStatus) {
       prj.status = newStatus;
