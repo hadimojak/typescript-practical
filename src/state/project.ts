@@ -13,7 +13,7 @@ class State<T> {
 //#endregion state
 
 //#region ProjectState
-export class ProjectState extends State<PRJ.Project> {
+class ProjectState extends State<PRJ.Project> {
   private projects: PRJ.Project[] = [];
   private static instance: ProjectState;
 
