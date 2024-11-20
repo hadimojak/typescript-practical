@@ -1,9 +1,9 @@
-import { DragTarget } from "../models/drag-drop.js";
-import Component from "./base-component.js";
-import * as PRJ from "../models/project.js";
-import { AutoBind } from "../decorators/autobind.js";
-import { projectState } from "../state/project.js";
-import { ProjectItem } from "./project-item.js";
+import { DragTarget } from "../models/drag-drop";
+import Component from "./base-component";
+import * as PRJ from "../models/project";
+import { AutoBind } from "../decorators/autobind";
+import { projectState } from "../state/project";
+import { ProjectItem } from "./project-item";
 
 //#region ProjectList
 export class ProjectList extends Component<HTMLDivElement, HTMLAreaElement> implements DragTarget {

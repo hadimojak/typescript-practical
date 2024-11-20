@@ -1,4 +1,4 @@
-import * as PRJ from "../models/project.js";
+import * as PRJ from "../models/project";
 
 type Listener<T> = (items: T[]) => void;
 

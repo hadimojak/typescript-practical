@@ -1,5 +1,5 @@
-import {ProjectInput} from "./components/project-input.js"
-import {ProjectList} from "./components/project-list.js"
+import {ProjectInput} from "./components/project-input"
+import {ProjectList} from "./components/project-list"
 
   // function ValidateInput(validateFn: (instance: any) => boolean) {
   //   return function (_: any, _2: string, descriptor: PropertyDescriptor) {
