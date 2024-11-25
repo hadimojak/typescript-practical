@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lite-server",
-    "lint": "eslint src/app.ts"
+    "lint": "eslint src/app.ts",
+    "dev": "webpack-dev-server",
+    "build": "webpack --config webpack.config.prod.js"
   },
   "keywords": [
     "typescript",
@@ -16,6 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.6.0",
+    "clean-webpack-plugin": "^4.0.0",
     "globals": "^15.8.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.3",
