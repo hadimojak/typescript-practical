@@ -4,20 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>understanding ts</title>
-  <script type="module" src="dist/app.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="app.css">
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
 </head>
-<div id="map">
-  <p>please enter an address! </p>
-</div>
-<form>
-  <input type="text" id="address">
-  <button type="submit"> SEARCH PLACE</button>
-</form>
 
 <body>
+  <div id="map"></div>
+  <form>
+    <label for="country">country:</label>
+    <input type="text" title="country where you live." placeholder="Enter country..." id="country">
+    <label for="city">city:</label>
+    <input type="text" title="city where you born." placeholder="Enter city..." id="city">
+    <label for="street1">street1:</label>
+    <input type="text" title="street1 where you born." placeholder="Enter street1..." id="street1">
+    <br>
+    <br>
+    <button type="submit"> SEARCH PLACE</button>
+  </form>
+  <script type="module" src="dist/app.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,9 @@
+{
+    "server": {
+        "baseDir": "./",
+        "routes": {
+            "/dist": "./dist"
+        }
+    },
+    "port": 3000
+}
