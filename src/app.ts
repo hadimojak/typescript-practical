@@ -15,12 +15,16 @@ function searchAddressHandler(event: Event) {
 
   const options = { method: "GET", headers: { accept: "application/json" } };
 
+  if (!countryName || !cityName || !street1Name) throw new Error("could not fetch");
+
   fetch(
     `https://us1.locationiq.com/v1/search/structured?street=${street1Name}&city=${cityName}&county=${countryName}&format=json&limit=1&key=${LOCATIONIQ_KEY}`,
     options
   )
     .then((res) => res.json())
     .then((data) => {
+      if (!data.error) throw new Error("could not fetch");
+
       const coordinates = { lat: data[0].lat, lon: data[0].lon };
 
       const map = L.map("map").setView([coordinates.lat, coordinates.lon], 13); // Default to London
