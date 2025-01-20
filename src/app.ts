@@ -23,25 +23,32 @@ function searchAddressHandler(event: Event) {
   )
     .then((res) => res.json())
     .then((data) => {
-      if (!data.error) throw new Error("could not fetch");
-
+      if (data.error) throw new Error("could not fetch");
       const coordinates = { lat: data[0].lat, lon: data[0].lon };
 
-      const map = L.map("map").setView([coordinates.lat, coordinates.lon], 13); // Default to London
-      // Add OpenStreetMap tiles
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+      let map: L.Map | undefined;
 
-      // Add a marker to the map
-      const marker = L.marker([coordinates.lat, coordinates.lon]).addTo(map);
+      function intializeMap() {
+        map = L.map("map").setView([coordinates.lat, coordinates.lon], 13); // Default to London
+        // Add OpenStreetMap tiles
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
+  
+        // Add a marker to the map
+        const marker = L.marker([coordinates.lat, coordinates.lon]).addTo(map);
+  
+        // Add a popup to the marker
+        marker.bindPopup("<b>Hello!</b><br>This is your adress.").openPopup();
+      }
 
-      // Add a popup to the marker
-      marker.bindPopup("<b>Hello!</b><br>This is a Leaflet map.").openPopup();
+      intializeMap()
+     
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
+
       throw new Error("could not fetch");
     });
 }
