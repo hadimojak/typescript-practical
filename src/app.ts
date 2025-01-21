@@ -6,6 +6,28 @@ const cityInput = <HTMLInputElement>document.getElementById("city");
 const street1Input = <HTMLInputElement>document.getElementById("street1");
 
 const LOCATIONIQ_KEY = "pk.49f671cd5434809527981baab89b28ad";
+let map: L.Map | undefined;
+
+
+function intializeMap(lat:number,lon:number) {
+
+  if (map) {
+    map.remove();
+  }
+
+  map = L.map("map").setView([lat, lon], 13); // Default to London
+  // Add OpenStreetMap tiles
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map);
+
+  // Add a marker to the map
+  const marker = L.marker([lat, lon]).addTo(map);
+
+  // Add a popup to the marker
+  marker.bindPopup("<b>Hello!</b><br>This is your adress.").openPopup();
+}
 
 function searchAddressHandler(event: Event) {
   event.preventDefault();
@@ -26,25 +48,7 @@ function searchAddressHandler(event: Event) {
       if (data.error) throw new Error("could not fetch");
       const coordinates = { lat: data[0].lat, lon: data[0].lon };
 
-      let map: L.Map | undefined;
-
-      function intializeMap() {
-        map = L.map("map").setView([coordinates.lat, coordinates.lon], 13); // Default to London
-        // Add OpenStreetMap tiles
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          maxZoom: 19,
-          attribution: "© OpenStreetMap contributors",
-        }).addTo(map);
-  
-        // Add a marker to the map
-        const marker = L.marker([coordinates.lat, coordinates.lon]).addTo(map);
-  
-        // Add a popup to the marker
-        marker.bindPopup("<b>Hello!</b><br>This is your adress.").openPopup();
-      }
-
-      intializeMap()
-     
+      intializeMap(coordinates.lat, coordinates.lon);
     })
     .catch((err) => {
       console.log(err);
